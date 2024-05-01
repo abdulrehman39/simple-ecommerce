@@ -289,6 +289,7 @@
       </div>
     </div>
 
+    <!-- Header Section Start -->
     <header id="header" class="site-header">
       <div class="top-info border-bottom d-none d-md-block">
         <div class="container-fluid">
@@ -318,7 +319,12 @@
       <nav id="header-nav" class="navbar navbar-expand-lg py-3">
         <div class="container">
           <a class="navbar-brand" href="index.html">
-            <img src="images/main-logo.png" class="logo" />
+            <img
+              src="images/logo.png"
+              class="logo"
+              height="38px"
+              width="128px"
+            />
           </a>
           <button
             class="navbar-toggler d-flex d-lg-none order-3 p-2"
@@ -341,7 +347,12 @@
           >
             <div class="offcanvas-header px-4 pb-0">
               <a class="navbar-brand" href="index.html">
-                <img src="images/main-logo.png" class="logo" />
+                <img
+                  src="images/logo.png"
+                  class="logo"
+                  height="38px"
+                  width="128px"
+                />
               </a>
               <button
                 type="button"
@@ -354,89 +365,56 @@
             <div class="offcanvas-body">
               <ul
                 id="navbar"
-                class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1"
+                class="navbar-nav text-uppercase justify-content-start justify-content-lg-end align-items-start align-items-lg-center flex-grow-1"
               >
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="about.html">About</a>
+                  <a class="nav-link me-4 active" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link me-4" href="shop.html">Shop</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="blog.html">Blogs</a>
+                  <a class="nav-link me-4" href="about.html">About Us</a>
                 </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link me-4 dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu animate slide border">
-                    <li>
-                      <a href="about.html" class="dropdown-item fw-light"
-                        >About <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="shop.html" class="dropdown-item fw-light"
-                        >Shop <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a
-                        href="single-product.html"
-                        class="dropdown-item fw-light"
-                        >Single Product
-                        <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="cart.html" class="dropdown-item fw-light"
-                        >Cart <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="checkout.html" class="dropdown-item fw-light"
-                        >Checkout <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="blog.html" class="dropdown-item fw-light"
-                        >Blog <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="single-post.html" class="dropdown-item fw-light"
-                        >Single Post
-                        <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a
-                        href="contact.html"
-                        class="dropdown-item active fw-light"
-                        >Contact <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                  </ul>
+                <!-- <li class="nav-item">
+                <a class="nav-link me-4" href="shipping-returns.html">Shipping-returns</a>
+              </li> -->
+                <!-- <li class="nav-item dropdown">
+                <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                  aria-expanded="false">Pages</a>
+                <ul class="dropdown-menu animate slide border">
+                  <li>
+                    <a href="about.html" class="dropdown-item fw-light">About </a>
+                  </li>
+                  <li>
+                    <a href="shop.html" class="dropdown-item fw-light">Shop </a>
+                  </li>
+                  <li>
+                    <a href="single-product.html" class="dropdown-item fw-light">Single Product </a>
+                  </li>
+                  <li>
+                    <a href="cart.html" class="dropdown-item fw-light">Cart </a>
+                  </li>
+                  <li>
+                    <a href="checkout.html" class="dropdown-item fw-light">Checkout </a>
+                  </li>
+                  <li>
+                    <a href="blog.html" class="dropdown-item fw-light">Blog </a>
+                  </li>
+                  <li>
+                    <a href="single-post.html" class="dropdown-item fw-light">Single Post </a>
+                  </li>
+                  <li>
+                    <a href="contact.html" class="dropdown-item fw-light">Contact </a>
+                  </li>
+                </ul>
+              </li> -->
+                <li class="nav-item">
+                  <a class="nav-link me-4" href="contact.html">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active me-4" href="contact.html"
-                    >Contact</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link text-decoration-underline me-4"
-                    href="https://templatesjungle.gumroad.com/l/shoplite-simple-ecommerce-bootstrap-html-css-website-template"
-                    target="_blank"
-                    >Get Pro</a
+                  <a class="nav-link me-4" href="contact.html"
+                    >Shipping & Returns</a
                   >
                 </li>
               </ul>
@@ -715,8 +693,9 @@
                       aria-expanded="false"
                     >
                       <svg class="cart">
-                        <use xlink:href="#cart"></use></svg
-                      ><span class="fs-6 fw-light">(02)</span>
+                        <use xlink:href="#cart"></use>
+                      </svg>
+                      <span class="fs-6 fw-light">(02)</span>
                     </a>
                     <div
                       class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3"
@@ -782,6 +761,7 @@
         </div>
       </nav>
     </header>
+    <!-- Header Section End -->
 
     <section
       class="hero-section position-relative bg-light-gray padding-medium"
@@ -803,6 +783,7 @@
       </div>
     </section>
 
+    <!-- Contact Section Start -->
     <div class="contact-us padding-large">
       <div class="container">
         <div class="row">
@@ -815,42 +796,18 @@
             <div class="page-content d-flex flex-wrap">
               <div class="col-lg-6 col-sm-12">
                 <div class="content-box text-dark pe-4 mb-5">
-                  <h3>Office</h3>
+                  <h3>Pakistan</h3>
                   <div class="contact-address pt-3">
-                    <p>730 Glenstone Ave 65802, Springfield, US</p>
+                    <p>Wallace Road, Sukkur, Sindh, 65200.</p>
                   </div>
                   <div class="contact-number">
                     <p>
-                      <a href="#">+123 987 321</a>
-                    </p>
-                    <p>
-                      <a href="#">+123 123 654</a>
+                      <a href="#">+92-324 8011017</a>
                     </p>
                   </div>
                   <div class="email-address">
                     <p>
-                      <a href="#">info@yourinfo.com</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12">
-                <div class="content-box">
-                  <h3>Management</h3>
-                  <div class="contact-address pt-3">
-                    <p>730 Glenstone Ave 65802, Springfield, US</p>
-                  </div>
-                  <div class="contact-number">
-                    <p>
-                      <a href="#">+123 987 321</a>
-                    </p>
-                    <p>
-                      <a href="#">+123 123 654</a>
-                    </p>
-                  </div>
-                  <div class="email-address">
-                    <p>
-                      <a href="#">info@yourinfo.com</a>
+                      <a href="#">dfixtechnologies@gmail.com</a>
                     </p>
                   </div>
                 </div>
@@ -910,7 +867,9 @@
         </div>
       </div>
     </div>
+    <!-- Contact Section End -->
 
+    <!-- Store Location Section Start -->
     <section id="our-store" class="padding-large pt-0">
       <div class="container">
         <div class="row d-flex flex-wrap align-items-center">
@@ -928,42 +887,24 @@
               <div class="display-header">
                 <h3>Our stores</h3>
                 <p class="mb-5">
-                  You can also directly buy products from our stores.
+                  You can also directly buy products from our store.
                 </p>
               </div>
               <div class="location-content d-flex flex-wrap">
                 <div class="col-lg-6 col-sm-12">
                   <div class="content-box text-dark pe-4 mb-5">
-                    <h3>USA</h3>
+                    <h3>Pakistan</h3>
                     <div class="contact-address pt-3">
-                      <p>730 Glenstone Ave 65802, US</p>
+                      <p>Wallace Road, Sukkur, Sindh, 65200.</p>
                     </div>
                     <div class="contact-number">
                       <p>
-                        <a href="#">+123 666 777 88</a>
+                        <a href="#">+92-324 8011017</a>
                       </p>
                     </div>
                     <div class="email-address">
                       <p>
-                        <a href="#">info@yourinfo.com</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-sm-12">
-                  <div class="content-box">
-                    <h3>France</h3>
-                    <div class="contact-address pt-3">
-                      <p>13 Rue Montmartre 75001, Paris, France</p>
-                    </div>
-                    <div class="contact-number">
-                      <p>
-                        <a href="#">+123 222 333 44</a>
-                      </p>
-                    </div>
-                    <div class="email-address">
-                      <p>
-                        <a href="#">info@yourinfo.com</a>
+                        <a href="#">dfixtechnologies@gmail.com</a>
                       </p>
                     </div>
                   </div>
@@ -974,7 +915,9 @@
         </div>
       </div>
     </section>
+    <!-- Store Location Section End -->
 
+    <!-- testimonial Section Start -->
     <section id="customers-reviews" class="position-relative">
       <div class="container">
         <div class="section-title overflow-hidden mb-4">
@@ -1163,6 +1106,7 @@
         </div>
       </div>
     </section>
+    <!-- testimonial Section end -->
 
     <!-- Brands Section Start -->
     <section id="brands" class="border-top border-bottom mt-4">
@@ -1350,6 +1294,7 @@
       </div>
     </section>
 
+    <!-- Footer Section Start -->
     <footer id="footer" class="overflow-hidden">
       <div class="container">
         <div class="row">
@@ -1358,9 +1303,11 @@
               <div class="col-lg-3 col-sm-6 pb-3">
                 <div class="footer-menu">
                   <img
-                    src="images/main-logo.png"
+                    src="images/logo.png"
                     alt="logo"
                     class="img-fluid mb-2"
+                    height="38px"
+                    width="126px"
                   />
                   <p>
                     Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit
@@ -1422,9 +1369,6 @@
                       <a href="#">Shop</a>
                     </li>
                     <li class="menu-item mb-1">
-                      <a href="#">Blogs</a>
-                    </li>
-                    <li class="menu-item mb-1">
                       <a href="#">Contact</a>
                     </li>
                   </ul>
@@ -1442,9 +1386,6 @@
                     </li>
                     <li class="menu-item mb-1">
                       <a href="#">Shipping + Delivery</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Contact Us</a>
                     </li>
                     <li class="menu-item mb-1">
                       <a href="#">Faqs</a>
@@ -1497,15 +1438,16 @@
           </div>
           <div class="copyright">
             <p>
-              © Copyright 2024 ShopLite. HTML Template by
-              <a href="https://templatesjungle.com/" target="_blank"
-                >TemplatesJungle</a
+              © Copyright 2024 ShopLite. by
+              <a href="#" target="_blank"
+                ><b>Development Fixture (Pvt.) Ltd.</b></a
               >
             </p>
           </div>
         </div>
       </div>
     </div>
+    <!-- Footer Section End -->
 
     <script src="js/jquery-1.11.0.min.js"></script>
     <script
