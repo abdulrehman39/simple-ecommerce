@@ -1097,3 +1097,33 @@ select#input-sort {
     margin-bottom: 10px;
   }
 }
+
+.whatsapp-btn {
+  fill: white;
+  width: 50px;
+  height: 50px;
+  padding: 3px;
+  background-color: #4dc247;
+  border-radius: 50%;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  /* box-shadow: 2px 2px 11px rgba(0,0,0,0.7); */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+@media (min-width: 320px) and (max-width: 543px) {
+  .whatsapp-btn {
+    right: 20px;
+    bottom: 15px;
+  }
+}
+.whatsapp-btn:hover {
+  box-shadow: 2px 2px 11px rgba(0, 0, 0, 0.7);
+}
+.whatsapp-btn.show {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+}
