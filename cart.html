@@ -811,7 +811,7 @@
       </div>
     </section>
 
-    <section class="cart padding-large">
+    <!-- <section class="cart padding-large">
       <div class="container">
         <div class="row">
           <div class="cart-table">
@@ -823,7 +823,7 @@
               </div>
             </div>
             <div class="slash-divider"></div>
-            <div class="cart-item border-bottom padding-small">
+            <div class="cart-item border-bottom padding-small" id="cart">
               <div class="row align-items-center">
                 <div class="col-lg-4 col-md-3">
                   <div
@@ -846,8 +846,8 @@
                         <div class="card-price">
                           <span
                             class="price text-primary fw-light"
-                            data-currency-usd="$2000.00"
-                            >$2000.00</span
+                            id="totalAmount"
+                            >$0.0</span
                           >
                         </div>
                       </div>
@@ -1055,6 +1055,66 @@
               <button class="btn">Update Cart</button>
               <button class="btn">Continue Shopping</button>
               <button class="btn">Proceed to checkout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <section class="cart padding-large">
+      <div class="container">
+        <div class="row">
+          <div class="cart-table">
+            <div class="cart-header">
+              <div class="row d-flex text-uppercase">
+                <h4 class="col-lg-4 pb-3">Product</h4>
+                <h4 class="col-lg-3 pb-3">Quantity</h4>
+                <h4 class="col-lg-4 pb-3">Subtotal</h4>
+              </div>
+            </div>
+            <div class="slash-divider"></div>
+            <ul class="cart-item border-bottom padding-small" id="cart">
+              <!-- Cart items will be dynamically added here -->
+            </ul>
+          </div>
+          <div class="cart-totals padding-medium pb-0">
+            <h3 class="mb-3">Cart Totals</h3>
+            <div class="total-price pb-3">
+              <table cellspacing="0" class="table text-uppercase">
+                <tbody>
+                  <tr class="subtotal pt-2 pb-2 border-top border-bottom">
+                    <th>Subtotal</th>
+                    <td data-title="Subtotal">
+                      <span
+                        class="price-amount amount text-primary ps-5 fw-light"
+                        id="totalAmount"
+                      >
+                        <bdi>$0.00</bdi>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="order-total pt-2 pb-2 border-bottom">
+                    <th>Total</th>
+                    <td data-title="Total">
+                      <span
+                        class="price-amount amount text-primary ps-5 fw-light"
+                        id="totalAmount"
+                      >
+                        <bdi>$0.00</bdi>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="button-wrap d-flex flex-wrap gap-3">
+              <button class="btn" onclick="updateCart()">Update Cart</button>
+              <button class="btn" onclick="continueShopping()">
+                Continue Shopping
+              </button>
+              <button class="btn" onclick="proceedToCheckout()">
+                Proceed to Checkout
+              </button>
             </div>
           </div>
         </div>
@@ -1601,8 +1661,9 @@
         <path
           d=" M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964.53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z"
           fill-rule="evenodd"
-        ></path></svg
-    ></a>
+        ></path>
+      </svg>
+    </a>
     <!-- Whatsapp btn end  -->
 
     <script src="js/jquery-1.11.0.min.js"></script>
@@ -1613,5 +1674,88 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cartElement = document.getElementById("cart");
+        const totalElement = document.getElementById("totalAmount");
+
+        // Retrieve cart items from local storage
+        let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Render cart items
+        renderCart();
+
+        function renderCart() {
+          // Clear existing cart content
+          cartElement.innerHTML = "";
+
+          let totalAmount = 0;
+
+          // Iterate through cart items and render each item
+          cartItems.forEach(function (item, index) {
+            const cartItem = document.createElement("div");
+            cartItem.classList.add("cart-item");
+            cartItem.classList.add("border-bottom");
+            cartItem.classList.add("padding-small");
+
+            // Create the cart item HTML
+            cartItem.innerHTML = `
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-3">
+                        <div class="cart-info d-flex gap-2 flex-wrap align-items-center">
+                            <div class="col-lg-5">
+                                <div class="card-image">
+                                    <img src="${
+                                      item.imageUrl
+                                    }" alt="cart-img" class="img-fluid border rounded-3" />
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="card-detail">
+                                    <h5 class="mt-2">${item.name}</h5>
+                                    <div class="product-quantity my-2">
+                                        <span>Quantity: ${item.quantity}</span>
+                                    </div>
+                                    <div class="total-price">
+                                        <span class="money fs-2 fw-light text-primary">$${(
+                                          item.price * item.quantity
+                                        ).toFixed(2)}</span>
+                                        <button class="btn btn-sm btn-danger ms-2" data-index="${index}">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add event listener to remove button
+            const removeButton = cartItem.querySelector("button");
+            removeButton.addEventListener("click", function () {
+              removeFromCart(index);
+            });
+
+            cartElement.appendChild(cartItem);
+
+            // Update total amount
+            totalAmount += item.price * item.quantity;
+          });
+
+          // Update total amount display
+          totalElement.textContent = `Total: $${totalAmount.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+          // Remove item from cartItems array at the specified index
+          cartItems.splice(index, 1);
+
+          // Update local storage with modified cartItems array
+          localStorage.setItem("cart", JSON.stringify(cartItems));
+
+          // Re-render the cart to reflect the updated cartItems
+          renderCart();
+        }
+      });
+    </script>
   </body>
 </html>
