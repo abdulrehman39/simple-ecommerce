@@ -348,15 +348,16 @@ aside .sidebar .section-title h3::after {
 /** 3.1 Form Control
 --------------------------------------------------------------*/
 .form-control {
-  padding: 1rem;
-  font-size: 21px;
+  padding: 0.5rem;
+  font-size: 19px;
   font-weight: 200;
   letter-spacing: 0.01rem;
   line-height: normal;
+  width: 85%;
 }
 .form-control:focus {
   box-shadow: none;
-  border-color: #131814;
+  border-color: #0059c5;
 }
 input.form-control::placeholder,
 textarea.form-control::placeholder {
