@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,12 +13,7 @@
     <meta name="author" content="" />
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+    <link href="bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link
       rel="stylesheet"
@@ -27,6 +25,39 @@
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Function to handle removal of cart item via AJAX
+        $(".remove-item").on("click", function (e) {
+          e.preventDefault();
+
+          var productId = $(this).data("product-id");
+
+          // Send AJAX request to remove item from cart
+          $.ajax({
+            url: "remove_from_cart.php",
+            type: "POST",
+            data: {
+              productId: productId,
+            },
+            success: function (response) {
+              // Reload cart content after successful removal
+              $("#cart-container").load("cart_content.php");
+              alert("Item removed from cart!");
+            },
+            error: function (xhr, status, error) {
+              console.error(error);
+            },
+          });
+        });
+
+        // Checkout button click event
+        $("#checkout-btn").on("click", function () {
+          window.location.href = "checkout.html"; // Redirect to checkout page
+        });
+      });
+    </script>
   </head>
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
@@ -235,6 +266,22 @@
       </symbol>
       <symbol
         xmlns="http://www.w3.org/2000/svg"
+        id="cart-cross-outline"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12.03 8.97a.75.75 0 1 0-1.06 1.06l.97.97l-.97.97a.75.75 0 1 0 1.06 1.06l.97-.97l.97.97a.75.75 0 1 0 1.06-1.06l-.97-.97l.97-.97a.75.75 0 1 0-1.06-1.06l-.97.97z"
+        />
+        <path
+          fill="currentColor"
+          fill-rule="evenodd"
+          d="M1.293 2.751a.75.75 0 0 1 .956-.459l.301.106c.617.217 1.14.401 1.553.603c.44.217.818.483 1.102.899c.282.412.399.865.452 1.362l.011.108H17.12c.819 0 1.653 0 2.34.077c.35.039.697.101 1.003.209c.3.105.631.278.866.584c.382.496.449 1.074.413 1.66c-.035.558-.173 1.252-.338 2.077l-.01.053l-.002.004l-.508 2.47c-.15.726-.276 1.337-.439 1.82c-.172.51-.41.96-.837 1.308c-.427.347-.916.49-1.451.556c-.505.062-1.13.062-1.87.062H10.88c-1.345 0-2.435 0-3.293-.122c-.897-.127-1.65-.4-2.243-1.026c-.547-.576-.839-1.188-.985-2.042c-.137-.8-.15-1.848-.15-3.3V7.038c0-.74-.002-1.235-.043-1.615c-.04-.363-.109-.545-.2-.677c-.087-.129-.22-.25-.524-.398c-.323-.158-.762-.314-1.43-.549l-.26-.091a.75.75 0 0 1-.46-.957M5.708 6.87v2.89c0 1.489.018 2.398.13 3.047c.101.595.274.925.594 1.263c.273.288.65.472 1.365.573c.74.105 1.724.107 3.14.107h5.304c.799 0 1.33-.001 1.734-.05c.382-.047.56-.129.685-.231c.125-.102.24-.26.364-.625c.13-.385.238-.905.4-1.688l.498-2.42v-.002c.178-.89.295-1.482.322-1.926c.026-.421-.04-.569-.101-.65a.561.561 0 0 0-.177-.087a3.17 3.17 0 0 0-.672-.134c-.595-.066-1.349-.067-2.205-.067zM5.25 19.5a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0m2.25.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5m6.75-.75a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0m2.25.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5"
+          clip-rule="evenodd"
+        />
+      </symbol>
+      <symbol
+        xmlns="http://www.w3.org/2000/svg"
         id="navbar-icon"
         viewBox="0 0 16 16"
       >
@@ -306,6 +353,7 @@
       </div>
     </div>
 
+    <!-- Header Section Start -->
     <header id="header" class="site-header">
       <div class="top-info border-bottom d-none d-md-block">
         <div class="container-fluid">
@@ -335,7 +383,12 @@
       <nav id="header-nav" class="navbar navbar-expand-lg py-3">
         <div class="container">
           <a class="navbar-brand" href="index.html">
-            <img src="images/main-logo.png" class="logo" />
+            <img
+              src="images/logo.png"
+              class="logo"
+              height="38px"
+              width="128px"
+            />
           </a>
           <button
             class="navbar-toggler d-flex d-lg-none order-3 p-2"
@@ -358,7 +411,12 @@
           >
             <div class="offcanvas-header px-4 pb-0">
               <a class="navbar-brand" href="index.html">
-                <img src="images/main-logo.png" class="logo" />
+                <img
+                  src="images/logo.png"
+                  class="logo"
+                  height="38px"
+                  width="128px"
+                />
               </a>
               <button
                 type="button"
@@ -371,85 +429,56 @@
             <div class="offcanvas-body">
               <ul
                 id="navbar"
-                class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1"
+                class="navbar-nav text-uppercase justify-content-start justify-content-lg-end align-items-start align-items-lg-center flex-grow-1"
               >
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="about.html">About</a>
+                  <a class="nav-link me-4 active" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link me-4" href="shop.html">Shop</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="blog.html">Blogs</a>
+                  <a class="nav-link me-4" href="about.html">About Us</a>
                 </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link me-4 dropdown-toggle link-dark"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu animate slide border">
-                    <li>
-                      <a href="about.html" class="dropdown-item fw-light"
-                        >About <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="shop.html" class="dropdown-item fw-light"
-                        >Shop <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a
-                        href="single-product.html"
-                        class="dropdown-item active fw-light"
-                        >Single Product
-                        <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="cart.html" class="dropdown-item fw-light"
-                        >Cart <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="checkout.html" class="dropdown-item fw-light"
-                        >Checkout <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="blog.html" class="dropdown-item fw-light"
-                        >Blog <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="single-post.html" class="dropdown-item fw-light"
-                        >Single Post
-                        <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                    <li>
-                      <a href="contact.html" class="dropdown-item fw-light"
-                        >Contact <span class="badge bg-primary">Pro</span></a
-                      >
-                    </li>
-                  </ul>
+                <!-- <li class="nav-item">
+                <a class="nav-link me-4" href="shipping-returns.html">Shipping-returns</a>
+              </li> -->
+                <!-- <li class="nav-item dropdown">
+                <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                  aria-expanded="false">Pages</a>
+                <ul class="dropdown-menu animate slide border">
+                  <li>
+                    <a href="about.html" class="dropdown-item fw-light">About </a>
+                  </li>
+                  <li>
+                    <a href="shop.html" class="dropdown-item fw-light">Shop </a>
+                  </li>
+                  <li>
+                    <a href="single-product.html" class="dropdown-item fw-light">Single Product </a>
+                  </li>
+                  <li>
+                    <a href="cart.html" class="dropdown-item fw-light">Cart </a>
+                  </li>
+                  <li>
+                    <a href="checkout.html" class="dropdown-item fw-light">Checkout </a>
+                  </li>
+                  <li>
+                    <a href="blog.html" class="dropdown-item fw-light">Blog </a>
+                  </li>
+                  <li>
+                    <a href="single-post.html" class="dropdown-item fw-light">Single Post </a>
+                  </li>
+                  <li>
+                    <a href="contact.html" class="dropdown-item fw-light">Contact </a>
+                  </li>
+                </ul>
+              </li> -->
+                <li class="nav-item">
+                  <a class="nav-link me-4" href="contact.html">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="contact.html">Contact</a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link text-decoration-underline me-4"
-                    href="https://templatesjungle.gumroad.com/l/shoplite-simple-ecommerce-bootstrap-html-css-website-template"
-                    target="_blank"
-                    >Get Pro</a
+                  <a class="nav-link me-4" href="contact.html"
+                    >Shipping & Returns</a
                   >
                 </li>
               </ul>
@@ -728,8 +757,9 @@
                       aria-expanded="false"
                     >
                       <svg class="cart">
-                        <use xlink:href="#cart"></use></svg
-                      ><span class="fs-6 fw-light">(02)</span>
+                        <use xlink:href="#cart"></use>
+                      </svg>
+                      <span class="fs-6 fw-light">(02)</span>
                     </a>
                     <div
                       class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3"
@@ -795,691 +825,337 @@
         </div>
       </nav>
     </header>
+    <!-- Header Section End -->
 
-    <section class="single-product padding-large">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="d-flex gap-3 product-preview">
-              <div class="swiper thumb-swiper w-50">
-                <div
-                  class="swiper-wrapper d-flex flex-wrap gap-3 align-content-start"
-                >
-                  <div class="swiper-slide bg-white">
-                    <img
-                      src="images/product-thumbnail-1.png"
-                      alt="product-thumb"
-                      class="img-fluid border rounded-3"
-                    />
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img
-                      src="images/product-thumbnail-2.png"
-                      alt="product-thumb"
-                      class="img-fluid border rounded-3"
-                    />
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img
-                      src="images/product-thumbnail-3.png"
-                      alt="product-thumb"
-                      class="img-fluid border rounded-3"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="swiper large-swiper border rounded-3 overflow-hidden">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide bg-white">
-                    <img
-                      src="images/product-large-1.png"
-                      alt="single-product"
-                      class="img-fluid"
-                    />
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img
-                      src="images/product-large-2.png"
-                      alt="single-product"
-                      class="img-fluid"
-                    />
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img
-                      src="images/product-large-3.png"
-                      alt="single-product"
-                      class="img-fluid"
-                    />
-                  </div>
-                </div>
+    <section
+      class="hero-section position-relative bg-light-gray padding-medium"
+    >
+      <div class="hero-content">
+        <div class="container">
+          <div class="row">
+            <div class="text-center">
+              <h1>Cart</h1>
+              <div class="breadcrumbs">
+                <span class="item">
+                  <a href="index.html">Home > </a>
+                </span>
+                <span class="item text-decoration-underline">Cart</span>
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
-            <div class="product-info ps-lg-5 pt-3 pt-lg-0">
-              <div class="element-header">
-                <h1 class="product-title">Iphone 15 Pro Max</h1>
-                <div class="product-price d-flex align-items-center mt-2">
-                  <span class="fs-2 fw-light text-primary me-2 product-price"
-                    >$2000</span
-                  >
-                  <del>$2600</del>
-                </div>
-                <div class="rating text-primary my-3">
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="cart padding-large">
+      <div class="container">
+        <div class="row">
+          <div class="cart-table">
+            <div class="cart-header">
+              <div class="row d-flex text-uppercase">
+                <h4 class="col-lg-4 pb-3">Product</h4>
+                <h4 class="col-lg-3 pb-3">Quantity</h4>
+                <h4 class="col-lg-4 pb-3">Subtotal</h4>
               </div>
-              <p>
-                Justo, cum feugiat imperdiet nulla molestie ac vulputate
-                scelerisque amet. Bibendum adipiscing platea blandit sit sed
-                quam semper rhoncus.
-              </p>
-              <div class="slash-divider"></div>
-              <div class="cart-wrap">
-                <div class="color-options product-select my-3">
-                  <div class="color-toggle" data-option-index="0">
-                    <h4
-                      class="item-title text-decoration-underline text-uppercase"
-                    >
-                      Color
-                    </h4>
-                    <ul class="select-list list-unstyled d-flex mb-0">
-                      <li
-                        class="select-item me-3"
-                        data-val="Green"
-                        title="Green"
-                      >
-                        <a href="#">Gray</a>
-                      </li>
-                      <li
-                        class="select-item me-3"
-                        data-val="Orange"
-                        title="Orange"
-                      >
-                        <a href="#">Blue</a>
-                      </li>
-                      <li class="select-item me-3" data-val="Red" title="Red">
-                        <a href="#">White</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="swatch product-select" data-option-index="1">
-                  <h4
-                    class="item-title text-decoration-underline text-uppercase"
-                  >
-                    Size
-                  </h4>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item me-3">
-                      <a href="#">S</a>
-                    </li>
-                    <li data-value="M" class="select-item me-3">
-                      <a href="#">M</a>
-                    </li>
-                    <li data-value="L" class="select-item me-3">
-                      <a href="#">L</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="product-quantity my-3">
-                  <div class="item-title">
-                    <l>2 in stock</l>
-                  </div>
+            </div>
+            <div class="slash-divider"></div>
+            <div class="cart-item border-bottom padding-small" id="cart">
+              <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3">
                   <div
-                    class="stock-button-wrap mt-2 d-flex flex-wrap align-items-center"
+                    class="cart-info d-flex gap-2 flex-wrap align-items-center"
                   >
-                    <div class="product-quantity">
-                      <div
-                        class="input-group product-qty align-items-center"
-                        style="max-width: 150px"
-                      >
-                        <span class="input-group-btn">
-                          <button
-                            type="button"
-                            class="bg-white shadow border rounded-3 fw-light quantity-left-minus"
-                            data-type="minus"
-                            data-field=""
-                          >
-                            <svg width="16" height="16">
-                              <use xlink:href="#minus"></use>
-                            </svg>
-                          </button>
-                        </span>
-                        <input
-                          type="text"
-                          id="quantity"
-                          name="quantity"
-                          class="form-control bg-white shadow border rounded-3 py-2 mx-2 input-number text-center"
-                          value="1"
-                          min="1"
-                          max="100"
-                          required
+                    <div class="col-lg-5">
+                      <div class="card-image">
+                        <img
+                          src="images/cart-item1.png"
+                          alt="cart-img"
+                          class="img-fluid border rounded-3"
                         />
-                        <span class="input-group-btn">
-                          <button
-                            type="button"
-                            class="bg-white shadow border rounded-3 fw-light quantity-right-plus"
-                            data-type="plus"
-                            data-field=""
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="card-detail">
+                        <h5 class="mt-2">
+                          <a href="single-product.html">Iphone 15 pro max</a>
+                        </h5>
+                        <div class="card-price">
+                          <span
+                            class="price text-primary fw-light"
+                            id="totalAmount"
+                            >$0.0</span
                           >
-                            <svg width="16" height="16">
-                              <use xlink:href="#plus"></use>
-                            </svg>
-                          </button>
-                        </span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="action-buttons my-3 d-flex flex-wrap gap-3">
-                  <a href="#" class="btn">Order now</a>
-                  <a href="#" class="btn btn-dark" id="addToCartBtn"
-                    >Add to cart</a
-                  >
-                  <a href="#" class="btn btn-dark">
-                    <svg class="heart" width="21" height="21">
-                      <use xlink:href="#heart"></use>
-                    </svg>
-                  </a>
+                <div class="col-lg-6 col-md-7">
+                  <div class="row d-flex">
+                    <div class="col-md-6">
+                      <div class="product-quantity my-2 my-2">
+                        <div
+                          class="input-group product-qty align-items-center"
+                          style="max-width: 150px"
+                        >
+                          <span class="input-group-btn">
+                            <button
+                              type="button"
+                              class="bg-white shadow border rounded-3 fw-light quantity-left-minus"
+                              data-type="minus"
+                              data-field=""
+                            >
+                              <svg width="16" height="16">
+                                <use xlink:href="#minus"></use>
+                              </svg>
+                            </button>
+                          </span>
+                          <input
+                            type="text"
+                            id="quantity"
+                            name="quantity"
+                            class="form-control bg-white shadow border rounded-3 py-2 mx-2 input-number text-center"
+                            value="1"
+                            min="1"
+                            max="100"
+                            required
+                          />
+                          <span class="input-group-btn">
+                            <button
+                              type="button"
+                              class="bg-white shadow border rounded-3 fw-light quantity-right-plus"
+                              data-type="plus"
+                              data-field=""
+                            >
+                              <svg width="16" height="16">
+                                <use xlink:href="#plus"></use>
+                              </svg>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="total-price">
+                        <span class="money fs-2 fw-light text-primary"
+                          >$2000.00</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-1 col-md-2">
+                  <div class="cart-cross-outline">
+                    <a href="#">
+                      <svg class="cart-cross-outline" width="38" height="38">
+                        <use xlink:href="#cart-cross-outline"></use>
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </div>
-              <div class="slash-divider"></div>
-              <div class="meta-product my-3">
-                <div class="meta-item d-flex mb-1">
-                  <span class="fw-medium me-2">SKU:</span>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item">1223</li>
-                  </ul>
+            </div>
+            <div class="cart-item border-bottom padding-small">
+              <div class="row align-items-center">
+                <div class="col-lg-4 col-md-3">
+                  <div
+                    class="cart-info d-flex gap-2 flex-wrap align-items-center"
+                  >
+                    <div class="col-lg-5">
+                      <div class="card-image">
+                        <img
+                          src="images/cart-item2.png"
+                          alt="cart-img"
+                          class="img-fluid border rounded-3"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="card-detail">
+                        <h5 class="mt-2">
+                          <a href="single-product.html"
+                            >Apple Watch (2nd Gen)</a
+                          >
+                        </h5>
+                        <div class="card-price">
+                          <span
+                            class="price text-primary fw-light"
+                            data-currency-usd="$2000.00"
+                            >$400.00</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="meta-item d-flex mb-1">
-                  <span class="fw-medium me-2">Category:</span>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item">
-                      <a href="#">Toy</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Robot</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Tech</a>
-                    </li>
-                  </ul>
+                <div class="col-lg-6 col-md-7">
+                  <div class="row d-flex">
+                    <div class="col-lg-6">
+                      <div class="product-quantity my-2">
+                        <div
+                          class="input-group product-qty align-items-center"
+                          style="max-width: 150px"
+                        >
+                          <span class="input-group-btn">
+                            <button
+                              type="button"
+                              class="bg-white shadow border rounded-3 fw-light quantity-left-minus"
+                              data-type="minus"
+                              data-field=""
+                            >
+                              <svg width="16" height="16">
+                                <use xlink:href="#minus"></use>
+                              </svg>
+                            </button>
+                          </span>
+                          <input
+                            type="text"
+                            id="quantity"
+                            name="quantity"
+                            class="form-control bg-white shadow border rounded-3 py-2 mx-2 input-number text-center"
+                            value="1"
+                            min="1"
+                            max="100"
+                            required
+                          />
+                          <span class="input-group-btn">
+                            <button
+                              type="button"
+                              class="bg-white shadow border rounded-3 fw-light quantity-right-plus"
+                              data-type="plus"
+                              data-field=""
+                            >
+                              <svg width="16" height="16">
+                                <use xlink:href="#plus"></use>
+                              </svg>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="total-price">
+                        <span class="money fs-2 fw-light text-primary"
+                          >$400.00</span
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="meta-item d-flex mb-1">
-                  <span class="fw-medium me-2">Tags:</span>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item">
-                      <a href="#">Toy</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Small</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Strong</a>
-                    </li>
-                  </ul>
+                <div class="col-lg-1 col-md-2">
+                  <div class="cart-cross-outline">
+                    <a href="#">
+                      <svg class="cart-cross-outline" width="38" height="38">
+                        <use xlink:href="#cart-cross-outline"></use>
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="product-tabs">
-      <div class="container">
-        <div class="row">
-          <div class="tabs-listing">
-            <nav>
-              <div
-                class="nav nav-tabs d-flex justify-content-center py-3"
-                id="nav-tab"
-                role="tablist"
-              >
-                <button
-                  class="nav-link text-uppercase active"
-                  id="nav-home-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-home"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-home"
-                  aria-selected="true"
-                >
-                  Description
-                </button>
-                <button
-                  class="nav-link text-uppercase"
-                  id="nav-information-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-information"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-information"
-                  aria-selected="false"
-                >
-                  Additional information
-                </button>
-                <button
-                  class="nav-link text-uppercase"
-                  id="nav-shipping-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-shipping"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-shipping"
-                  aria-selected="false"
-                >
-                  Shipping & Return
-                </button>
-                <button
-                  class="nav-link text-uppercase"
-                  id="nav-review-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#nav-review"
-                  type="button"
-                  role="tab"
-                  aria-controls="nav-review"
-                  aria-selected="false"
-                >
-                  Reviews (02)
-                </button>
-              </div>
-            </nav>
-            <div class="tab-content border-bottom py-4" id="nav-tabContent">
-              <div
-                class="tab-pane fade active show"
-                id="nav-home"
-                role="tabpanel"
-                aria-labelledby="nav-home-tab"
-              >
-                <p>Product Description</p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                  Donec odio. Quisque volutpat mattis eros. Nullam malesuada
-                  erat ut turpis. Suspendisse urna viverra non, semper suscipit,
-                  posuere a, pede. Donec nec justo eget felis facilisis
-                  fermentum. Aliquam porttitor mauris sit amet orci. Aenean
-                  dignissim pellentesque felis. Phasellus ultrices nulla quis
-                  nibh. Quisque a lectus. Donec consectetuer ligula vulputate
-                  sem tristique cursus.
-                </p>
-                <ul class="fw-light">
-                  <li>Donec nec justo eget felis facilisis fermentum.</li>
-                  <li>Suspendisse urna viverra non, semper suscipit pede.</li>
-                  <li>Aliquam porttitor mauris sit amet orci.</li>
-                </ul>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                  Donec odio. Quisque volutpat mattis eros. Nullam malesuada
-                  erat ut turpis. Suspendisse urna viverra non, semper suscipit,
-                  posuere a, pede. Donec nec justo eget felis facilisis
-                  fermentum. Aliquam porttitor mauris sit amet orci. Aenean
-                  dignissim pellentesque felis. Phasellus ultrices nulla quis
-                  nibh. Quisque a lectus. Donec consectetuer ligula vulputate
-                  sem tristique cursus.
-                </p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="nav-information"
-                role="tabpanel"
-                aria-labelledby="nav-information-tab"
-              >
-                <p>It is Comfortable and Best</p>
-                <p>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                  occaecat cupidatat non proident, sunt in culpa qui officia
-                  deserunt mollit anim id est laborum. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                  nulla pariatur. Excepteur sint occaecat cupidatat non
-                  proident, sunt in culpa qui officia deserunt mollit anim id
-                  est laborum.
-                </p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="nav-shipping"
-                role="tabpanel"
-                aria-labelledby="nav-shipping-tab"
-              >
-                <p>Returns Policy</p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                  eros justo, accumsan non dui sit amet. Phasellus semper
-                  volutpat mi sed imperdiet. Ut odio lectus, vulputate non ex
-                  non, mattis sollicitudin purus. Mauris consequat justo a enim
-                  interdum, in consequat dolor accumsan. Nulla iaculis diam
-                  purus, ut vehicula leo efficitur at.
-                </p>
-                <p>
-                  Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                  In blandit nunc enim, sit amet pharetra erat aliquet ac.
-                </p>
-                <p>Shipping</p>
-                <p>
-                  Pellentesque ultrices ut sem sit amet lacinia. Sed nisi dui,
-                  ultrices ut turpis pulvinar. Sed fringilla ex eget lorem
-                  consectetur, consectetur blandit lacus varius. Duis vel
-                  scelerisque elit, et vestibulum metus. Integer sit amet
-                  tincidunt tortor. Ut lacinia ullamcorper massa, a fermentum
-                  arcu vehicula ut. Ut efficitur faucibus dui Nullam tristique
-                  dolor eget turpis consequat varius. Quisque a interdum augue.
-                  Nam ut nibh mauris.
-                </p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="nav-review"
-                role="tabpanel"
-                aria-labelledby="nav-review-tab"
-              >
-                <div class="review-box review-style d-flex gap-3 flex-column">
-                  <div class="review-item d-flex">
-                    <div class="image-holder me-2">
-                      <img
-                        src="images/review-image1.jpg"
-                        alt="review"
-                        class="img-fluid rounded-3"
-                      />
-                    </div>
-                    <div class="review-content">
-                      <div class="rating text-primary">
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                      </div>
-                      <div class="review-header">
-                        <span class="author-name fw-medium">Tom Johnson</span>
-                        <span class="review-date">- 07/05/2022</span>
-                      </div>
-                      <p>
-                        Vitae tortor condimentum lacinia quis vel eros donec ac.
-                        Nam at lectus urna duis convallis convallis
-                      </p>
-                    </div>
-                  </div>
-                  <div class="review-item d-flex">
-                    <div class="image-holder me-2">
-                      <img
-                        src="images/review-image2.jpg"
-                        alt="review"
-                        class="img-fluid rounded-3"
-                      />
-                    </div>
-                    <div class="review-content">
-                      <div class="rating text-primary">
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                        <svg class="star star-fill">
-                          <use xlink:href="#star-fill"></use>
-                        </svg>
-                      </div>
-                      <div class="review-header">
-                        <span class="author-name fw-medium">Jenny Willis</span>
-                        <span class="review-date">- 07/05/2022</span>
-                      </div>
-                      <p>
-                        Vitae tortor condimentum lacinia quis vel eros donec ac.
-                        Nam at lectus urna duis convallis convallis
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="add-review margin-small">
-                  <h3>Add a review</h3>
-                  <p>
-                    Your email address will not be published. Required fields
-                    are marked *
-                  </p>
-                  <div class="review-rating py-2">
-                    <span class="my-2">Your rating *</span>
-                    <div class="rating text-secondary">
-                      <svg class="star star-fill">
-                        <use xlink:href="#star-fill"></use>
-                      </svg>
-                      <svg class="star star-fill">
-                        <use xlink:href="#star-fill"></use>
-                      </svg>
-                      <svg class="star star-fill">
-                        <use xlink:href="#star-fill"></use>
-                      </svg>
-                      <svg class="star star-fill">
-                        <use xlink:href="#star-fill"></use>
-                      </svg>
-                      <svg class="star star-fill">
-                        <use xlink:href="#star-fill"></use>
-                      </svg>
-                    </div>
-                  </div>
-                  <input
-                    type="file"
-                    class="jfilestyle py-3 border-0"
-                    data-text="Choose your file"
-                  />
-                  <form id="form" class="d-flex gap-3 flex-wrap">
-                    <div class="w-100 d-flex gap-3">
-                      <div class="w-50">
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="Write your name here *"
-                          class="form-control w-100"
-                        />
-                      </div>
-                      <div class="w-50">
-                        <input
-                          type="text"
-                          name="email"
-                          placeholder="Write your email here *"
-                          class="form-control w-100"
-                        />
-                      </div>
-                    </div>
-                    <div class="w-100">
-                      <textarea
-                        placeholder="Write your review here *"
-                        class="form-control w-100"
-                      ></textarea>
-                    </div>
-                    <label class="w-100">
-                      <input type="checkbox" required="" class="d-inline" />
+          <div class="cart-totals padding-medium pb-0">
+            <h3 class="mb-3">Cart Totals</h3>
+            <div class="total-price pb-3">
+              <table cellspacing="0" class="table text-uppercase">
+                <tbody>
+                  <tr class="subtotal pt-2 pb-2 border-top border-bottom">
+                    <th>Subtotal</th>
+                    <td data-title="Subtotal">
                       <span
-                        >Save my name, email, and website in this browser for
-                        the next time.</span
+                        class="price-amount amount text-primary ps-5 fw-light"
                       >
-                    </label>
-                    <button type="submit" name="submit" class="btn my-3">
-                      Submit
-                    </button>
-                  </form>
-                </div>
-              </div>
+                        <bdi>
+                          <span class="price-currency-symbol">$</span>2,400.00
+                        </bdi>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="order-total pt-2 pb-2 border-bottom">
+                    <th>Total</th>
+                    <td data-title="Total">
+                      <span
+                        class="price-amount amount text-primary ps-5 fw-light"
+                      >
+                        <bdi>
+                          <span class="price-currency-symbol">$</span
+                          >2,400.00</bdi
+                        >
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="button-wrap d-flex flex-wrap gap-3">
+              <button class="btn">Update Cart</button>
+              <button class="btn">Continue Shopping</button>
+              <button class="btn">Proceed to checkout</button>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section id="related-items" class="position-relative padding-large">
+    <section class="cart padding-large">
       <div class="container">
-        <div class="section-title overflow-hidden mb-4">
-          <h3 class="d-flex align-items-center">Related items</h3>
-        </div>
         <div class="row">
-          <div class="col-md-3">
-            <div
-              class="card position-relative text-center py-4 mb-4 border rounded-3"
-            >
-              <img
-                src="images/product-item1.png"
-                class="img-fluid"
-                alt="product item"
-              />
-              <h5 class="mt-2">
-                <a href="single-product.html">IPad (9th Gen)</a>
-              </h5>
-              <span class="price text-primary fw-light mb-2">$870</span>
-              <div
-                class="card-concern position-absolute start-0 end-0 d-flex gap-2"
-              >
-                <button
-                  type="button"
-                  href="#"
-                  class="btn btn-dark"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-title="Tooltip on top"
-                >
-                  <svg class="cart">
-                    <use xlink:href="#cart"></use>
-                  </svg>
-                </button>
-                <a href="#" class="btn btn-dark">
-                  <span>
-                    <svg class="wishlist">
-                      <use xlink:href="#heart"></use>
-                    </svg>
-                  </span>
-                </a>
+          <div class="cart-table">
+            <div class="cart-header">
+              <div class="row d-flex text-uppercase">
+                <h4 class="col-lg-4 pb-3">Product</h4>
+                <h4 class="col-lg-3 pb-3">Quantity</h4>
+                <h4 class="col-lg-4 pb-3">Subtotal</h4>
               </div>
             </div>
-          </div>
-          <div class="col-md-3">
-            <div
-              class="card position-relative text-center py-4 mb-4 border rounded-3"
-            >
-              <img
-                src="images/product-item2.png"
-                class="img-fluid"
-                alt="product item"
-              />
-              <h5 class="mt-2">
-                <a href="single-product.html">Drone With Camera</a>
-              </h5>
-              <span class="price text-primary fw-light mb-2">$600</span>
-              <div
-                class="card-concern position-absolute start-0 end-0 d-flex gap-2"
-              >
-                <a href="#" class="btn btn-dark">
-                  <svg class="cart">
-                    <use xlink:href="#cart"></use>
-                  </svg>
-                </a>
-                <a href="#" class="btn btn-dark">
-                  <span>
-                    <svg class="wishlist">
-                      <use xlink:href="#heart"></use>
-                    </svg>
-                  </span>
-                </a>
-              </div>
+            <div class="slash-divider"></div>
+            <div id="cart-container">
+              <?php include 'cart_content.php'; ?>
             </div>
+            <!-- Cart items will be dynamically added here -->
           </div>
-          <div class="col-md-3">
-            <div
-              class="card position-relative text-center py-4 mb-4 border rounded-3"
-            >
-              <img
-                src="images/product-item3.png"
-                class="img-fluid"
-                alt="product item"
-              />
-              <h5 class="mt-2">
-                <a href="single-product.html">Apple Watch (2nd Gen)</a>
-              </h5>
-              <span class="price text-primary fw-light mb-2">$400</span>
-              <div
-                class="card-concern position-absolute start-0 end-0 d-flex gap-2"
-              >
-                <a href="#" class="btn btn-dark">
-                  <svg class="cart">
-                    <use xlink:href="#cart"></use>
-                  </svg>
-                </a>
-                <a href="#" class="btn btn-dark">
-                  <span>
-                    <svg class="wishlist">
-                      <use xlink:href="#heart"></use>
-                    </svg>
-                  </span>
-                </a>
-              </div>
+          <div class="cart-totals padding-medium pb-0">
+            <h3 class="mb-3">Cart Totals</h3>
+            <div class="total-price pb-3">
+              <table cellspacing="0" class="table text-uppercase">
+                <tbody>
+                  <tr class="subtotal pt-2 pb-2 border-top border-bottom">
+                    <th>Subtotal</th>
+                    <td data-title="Subtotal">
+                      <span
+                        class="price-amount amount text-primary ps-5 fw-light"
+                        id="totalAmount"
+                      >
+                        <bdi>$0.00</bdi>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="order-total pt-2 pb-2 border-bottom">
+                    <th>Total</th>
+                    <td data-title="Total">
+                      <span
+                        class="price-amount amount text-primary ps-5 fw-light"
+                        id="totalAmount"
+                      >
+                        <bdi>$0.00</bdi>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
-          <div class="col-md-3">
-            <div
-              class="card position-relative text-center py-4 mb-4 border rounded-3"
-            >
-              <img
-                src="images/product-item4.png"
-                class="img-fluid"
-                alt="product item"
-              />
-              <h5 class="mt-2">
-                <a href="single-product.html">Ultra HD TV</a>
-              </h5>
-              <span class="price text-primary fw-light mb-2">$2000</span>
-              <div
-                class="card-concern position-absolute start-0 end-0 d-flex gap-2"
+            <div class="button-wrap d-flex flex-wrap gap-3">
+              <a href="product.php" style="color: var(--white-color)"
+                ><button class="btn">Continue Shopping</button></a
               >
-                <a href="#" class="btn btn-dark">
-                  <svg class="cart">
-                    <use xlink:href="#cart"></use>
-                  </svg>
-                </a>
-                <a href="#" class="btn btn-dark">
-                  <span>
-                    <svg class="wishlist">
-                      <use xlink:href="#heart"></use>
-                    </svg>
-                  </span>
-                </a>
-              </div>
+              <button class="btn" id="checkout-btn">Proceed to Checkout</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- testimonial Section Start -->
     <section id="customers-reviews" class="position-relative">
       <div class="container">
         <div class="section-title overflow-hidden mb-4">
@@ -1668,121 +1344,59 @@
         </div>
       </div>
     </section>
+    <!-- testimonial Section end -->
 
-    <section id="latest-posts" class="padding-large">
-      <div class="container">
-        <div class="section-title overflow-hidden mb-4">
-          <h3 class="d-flex align-items-center">Latest posts</h3>
-        </div>
-        <div class="row">
-          <div class="col-md-3 posts mb-4">
-            <a href="blog.html" class="btn rounded-0 py-0 px-2">Gadgets</a>
-            <img
-              src="images/post-item1.jpg"
-              alt="post image"
-              class="img-fluid"
-            />
-            <h4 class="card-title mt-3 mb-2 text-uppercase text-dark">
-              <a href="single-post.html"
-                >5 Must-Have Gadgets for the Modern Home</a
-              >
-            </h4>
-            <p class="mb-2">
-              Dive into the world of cutting-edge technology with our latest
-              blog post, where we highlight five essential gadg
-            </p>
-            <a class="text-decoration-underline" href="single-post.html"
-              >Read More</a
-            >
-          </div>
-          <div class="col-md-3 posts mb-4">
-            <a href="blog.html" class="btn rounded-0 py-0 px-2">Phones</a>
-            <img
-              src="images/post-item2.jpg"
-              alt="post image"
-              class="img-fluid"
-            />
-            <h4 class="card-title mt-3 mb-2 text-uppercase text-dark">
-              <a href="single-post.html"
-                >Eco-Friendly Innovations Making a Difference</a
-              >
-            </h4>
-            <p class="mb-2">
-              Explore the intersection of technology and sustainability in our
-              latest blog post. Learn about the innovative
-            </p>
-            <a class="text-decoration-underline" href="single-post.html"
-              >Read More</a
-            >
-          </div>
-          <div class="col-md-3 posts mb-4">
-            <a href="blog.html" class="btn rounded-0 py-0 px-2">Tech</a>
-            <img
-              src="images/post-item3.jpg"
-              alt="post image"
-              class="img-fluid"
-            />
-            <h4 class="card-title mt-3 mb-2 text-uppercase text-dark">
-              <a href="single-post.html"
-                >The Future of Wearable Tech: Trends to Watch</a
-              >
-            </h4>
-            <p class="mb-2">
-              Stay ahead of the curve with our insightful look into the rapidly
-              evolving landscape of wearable technology.
-            </p>
-            <a class="text-decoration-underline" href="single-post.html"
-              >Read More</a
-            >
-          </div>
-          <div class="col-md-3 posts mb-4">
-            <a href="blog.html" class="btn rounded-0 py-0 px-2"
-              >Digital Watch</a
-            >
-            <img
-              src="images/post-item4.jpg"
-              alt="post image"
-              class="img-fluid"
-            />
-            <h4 class="card-title mt-3 mb-2 text-uppercase text-dark">
-              <a href="single-post.html">Top Apps and Tools for Remote Work</a>
-            </h4>
-            <p class="mb-2">
-              In today's remote work environment, productivity is key. Discover
-              the top apps and tools that can help you stay
-            </p>
-            <a class="text-decoration-underline" href="single-post.html"
-              >Read More</a
-            >
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="brands" class="py-5 border-top border-bottom">
+    <!-- Brands Section Start -->
+    <section id="brands" class="border-top border-bottom mt-4">
       <div class="container">
         <div
           class="brand-images my-5 d-flex align-items-center justify-content-between flex-wrap"
         >
           <a href="#" class="brand">
-            <img src="images/brand1.png" alt="brand" class="img-fluid" />
+            <img
+              src="images/haier.png"
+              alt="brand"
+              class="img-fluid"
+              height="26px"
+              width="200px"
+            />
           </a>
           <a href="#" class="brand">
-            <img src="images/brand2.png" alt="brand" class="img-fluid" />
+            <img
+              src="images/hp.png"
+              alt="brand"
+              class="img-fluid"
+              height="26px"
+              width="200px"
+            />
           </a>
           <a href="#" class="brand">
-            <img src="images/brand3.png" alt="brand" class="img-fluid" />
+            <img
+              src="images/dell.png"
+              alt="brand"
+              class="img-fluid"
+              height="26px"
+              width="200px"
+            />
           </a>
           <a href="#" class="brand">
-            <img src="images/brand4.png" alt="brand" class="img-fluid" />
+            <img
+              src="images/lenavo.png"
+              alt="brand"
+              class="img-fluid"
+              height="26px"
+              width="200px"
+            />
           </a>
-          <a href="#" class="brand">
-            <img src="images/brand5.png" alt="brand" class="img-fluid" />
-          </a>
+          <!-- <a href="#" class="brand">
+            <img src="images/asus.png" alt="brand" class="img-fluid" height="26px" width="200px"/>
+          </a> -->
         </div>
       </div>
     </section>
+    <!-- Brands Section End -->
 
+    <!-- instashop Section Start -->
     <section id="instagram" class="padding-large">
       <div class="container">
         <div class="text-center mb-4">
@@ -1918,7 +1532,9 @@
         </div>
       </div>
     </section>
+    <!-- instashop Section End -->
 
+    <!-- Footer Section Start -->
     <footer id="footer" class="overflow-hidden">
       <div class="container">
         <div class="row">
@@ -1927,9 +1543,11 @@
               <div class="col-lg-3 col-sm-6 pb-3">
                 <div class="footer-menu">
                   <img
-                    src="images/main-logo.png"
+                    src="images/logo.png"
                     alt="logo"
                     class="img-fluid mb-2"
+                    height="38px"
+                    width="126px"
                   />
                   <p>
                     Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit
@@ -1991,9 +1609,6 @@
                       <a href="#">Shop</a>
                     </li>
                     <li class="menu-item mb-1">
-                      <a href="#">Blogs</a>
-                    </li>
-                    <li class="menu-item mb-1">
                       <a href="#">Contact</a>
                     </li>
                   </ul>
@@ -2011,9 +1626,6 @@
                     </li>
                     <li class="menu-item mb-1">
                       <a href="#">Shipping + Delivery</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Contact Us</a>
                     </li>
                     <li class="menu-item mb-1">
                       <a href="#">Faqs</a>
@@ -2066,15 +1678,27 @@
           </div>
           <div class="copyright">
             <p>
-              © Copyright 2024 ShopLite. HTML Template by
-              <a href="https://templatesjungle.com/" target="_blank"
-                >TemplatesJungle</a
+              © Copyright 2024 ShopLite. by
+              <a href="#" target="_blank"
+                ><b>Development Fixture (Pvt.) Ltd.</b></a
               >
             </p>
           </div>
         </div>
       </div>
     </div>
+    <!-- Footer Section End -->
+
+    <!-- Whatsapp btn start -->
+    <a href="whatsapp://send?phone=923248011017">
+      <svg viewBox="0 0 32 32" title="Contact" class="whatsapp-btn">
+        <path
+          d=" M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964.53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z"
+          fill-rule="evenodd"
+        ></path>
+      </svg>
+    </a>
+    <!-- Whatsapp btn end  -->
 
     <script src="js/jquery-1.11.0.min.js"></script>
     <script
@@ -2084,41 +1708,5 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const addToCartButton = document.getElementById("addToCartBtn");
-
-        const selectedItem = {
-          name: "iPhone 15 Pro Max",
-          price: 2000,
-          image: "images/product-large-1.png", // Placeholder image URL
-        };
-
-        addToCartButton.addEventListener("click", () => {
-          console.log("Add to Cart button clicked!");
-
-          // Add selected item to local storage cart
-          addToCart(selectedItem);
-        });
-      });
-
-      function addToCart(item) {
-        let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-        // Check if item already exists in cart
-        const existingItem = cartItems.find(
-          (cartItem) => cartItem.name === item.name
-        );
-
-        if (existingItem) {
-          existingItem.quantity += 1; // Increment quantity
-        } else {
-          item.quantity = 1; // Initialize quantity for new item
-          cartItems.push(item); // Add new item to cart
-        }
-
-        localStorage.setItem("cart", JSON.stringify(cartItems));
-      }
-    </script>
   </body>
 </html>
