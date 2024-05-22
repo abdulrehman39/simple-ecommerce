@@ -1,19 +1,10 @@
-
-            <?php
-// Check if a session is not already active
-// if (session_status() == PHP_SESSION_NONE) {
-//     session_start(); // Start the session
-// }
-
+<?php
 if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     echo '<ul class="cart-item border-bottom padding-small" id="cart">';
     
     foreach($_SESSION['cart'] as $productId => $item) {
-        // Convert price and quantity to numeric values
         $price = floatval($item['price']); // Convert to float
         $quantity = intval($item['quantity']); // Convert to integer
-
-        // Calculate total price
         $total = $price * $quantity;
         
         echo '<div class="cart-item padding-small" id="cart">';
@@ -24,18 +15,18 @@ if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         echo '<div class="cart-info d-flex gap-2 flex-wrap align-items-center">';
         echo '<div class="col-lg-5">';
         echo '<div class="card-image">';
-        echo '<img src="' . $item['image'] . '" alt="' . $item['name'] . '" class="img-fluid border rounded-3">';
+        echo '<img src="' . htmlspecialchars($item['image']) . '" alt="' . htmlspecialchars($item['name']) . '" class="img-fluid border rounded-3">';
         echo '</div>';
         echo '</div>';
         echo '<div class="col-lg-4">';
         
         // Product Name
         echo '<div class="card-detail">';
-        echo '<h5 class="mt-2"><a href="single-product.html">' . $item['name'] . '</a></h5>';
+        echo '<h5 class="mt-2"><a href="single-product.php">' . htmlspecialchars($item['name']) . '</a></h5>';
         
         // Product Price
         echo '<div class="card-price">';
-        echo '<span class="price text-primary fw-light" id="totalAmount">$' . number_format($item['price'], 2) . '</span>';
+        echo '<span class="price text-primary fw-light" id="totalAmount">$' . number_format($price, 2) . '</span>';
         echo '</div>';
         
         echo '</div>'; // Closing card-detail
@@ -50,7 +41,7 @@ if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         // Quantity Selector
         echo '<div class="col-md-6">';
         echo '<div class="product-quantity my-2 my-2">';
-        echo '<div class="input-group product-qty align-items-center" style="max-width: 150px">';
+        echo '<div class="input-group product-qty align-items-center" style="max-width: 100px">';
         echo '<input readonly type="text" id="quantity" name="quantity" class="form-control bg-white shadow border rounded-3 py-2 mx-2 input-number text-center" value="' . $item['quantity'] . '" min="1" max="100" required="">';
         echo '</div>'; // Closing input-group
         echo '</div>'; // Closing product-quantity

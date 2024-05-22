@@ -693,7 +693,7 @@
                           >Add all to cart</a
                         >
                         <a
-                          href="cart.html"
+                          href="cart.php"
                           class="w-100 btn btn-primary"
                           type="submit"
                           >View cart</a
@@ -701,20 +701,17 @@
                       </div>
                     </div>
                   </li>
-                  <li class="cart-dropdown dropdown">
+                  <li class="nav-item nav-link ">
                     <a
-                      href="cart.html"
-                      class="dropdown-toggle"
-                      data-bs-toggle="dropdown"
+                      href="cart.php"
                       role="button"
-                      aria-expanded="false"
                     >
                       <svg class="cart">
                         <use xlink:href="#cart"></use>
                       </svg>
-                      <span class="fs-6 fw-light">(02)</span>
+                      <!-- <span class="fs-6 fw-light">(02)</span> -->
                     </a>
-                    <div
+                    <!-- <div
                       class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3"
                     >
                       <h4
@@ -769,7 +766,7 @@
                           >Go to checkout</a
                         >
                       </div>
-                    </div>
+                    </div> -->
                   </li>
                 </ul>
               </div>
@@ -1090,7 +1087,7 @@
             <!-- Product Information -->
             <div class="product-info ps-lg-5 pt-3 pt-lg-0">
               <div class="element-header">
-                <h1 class="product-title">Iphone 15 Pro Max</h1>
+                <h1 class="product-title" >Iphone 15 Pro Max</h1>
                 <div class="product-price d-flex align-items-center mt-2">
                   <span class="fs-2 fw-light text-primary me-2 product-price"
                     >$2000</span
@@ -1112,6 +1109,9 @@
               <!-- Product Options and Add to Cart Form -->
               <form method="POST" action="add_to_cart.php">
                 <input type="hidden" name="productId" value="1" />
+                <input type="hidden" name="name" value="Iphone 15 Pro Max">
+        <input type="hidden" name="price" value="2000">
+        <input type="hidden" name="image" value="images/product-thumbnail-1.png">
 
                 <!-- Color Selection -->
                 <div class="color-options product-select my-3">
@@ -1186,7 +1186,7 @@
                     max="2"
                     required
                   /> -->
-                  <div class="input-group product-qty align-items-center" style="max-width: 150px"><span class="input-group-btn"><button type="button" class="bg-white shadow border rounded-3 fw-light quantity-left-minus" data-type="minus" data-field=""><svg width="16" height="16"><use xlink:href="#minus"></use></svg></button></span><input type="number" id="quantity" name="quantity" class="form-control bg-white shadow border rounded-3 py-2 mx-2 input-number text-center" value="1" min="1" max="2" required=""><span class="input-group-btn"><button type="button" class="bg-white shadow border rounded-3 fw-light quantity-right-plus" data-type="plus" data-field=""><svg width="16" height="16"><use xlink:href="#plus"></use></svg></button></span></div>
+                  <div class="input-group product-qty align-items-center" style="max-width: 150px"><span class="input-group-btn"><button type="button" class="bg-white shadow border rounded-3 fw-light quantity-left-minus" data-type="minus" data-field=""><svg width="16" height="16"><use xlink:href="#minus"></use></svg></button></span><input type="text" id="quantity" name="quantity" class="form-control bg-white shadow border rounded-3 py-2 mx-2 input-number text-center" value="1" min="1" max="2" required=""><span class="input-group-btn"><button type="button" class="bg-white shadow border rounded-3 fw-light quantity-right-plus" data-type="plus" data-field=""><svg width="16" height="16"><use xlink:href="#plus"></use></svg></button></span></div>
                 </div>
 
                 <!-- Add to Cart Button -->
@@ -2192,7 +2192,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- JavaScript for Add to Cart functionality -->
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#addToCartBtn').on('click', function(e) {
             e.preventDefault();
@@ -2223,7 +2223,57 @@
             });
         });
     });
+</script> -->
+<script>
+    $(document).ready(function() {
+        $('#addToCartBtn').on('click', function(e) {
+            e.preventDefault();
+            
+            var productId = $('input[name="productId"]').val();
+            var quantity = $('input[name="quantity"]').val();
+            var color = $('input[name="color"]:checked').val();
+            var size = $('input[name="size"]:checked').val();
+            var name = $('input[name="name"]').val();
+            var price = $('input[name="price"]').val();
+            var image = $('input[name="image"]').val();
+
+            // Validate if color and size are selected
+                if (!color) {
+                    alert('Please select a color.');
+                    return;
+                }
+
+                if (!size) {
+                    alert('Please select a size.');
+                    return;
+                }
+            
+            // Send AJAX request to add item to cart
+            $.ajax({
+                url: 'add_to_cart.php',
+                type: 'POST',
+                data: {
+                    productId: productId,
+                    quantity: quantity,
+                    color: color,
+                    size: size,
+                    name: name,
+                    price: price,
+                    image: image
+                },
+                success: function(response) {
+                    // Update cart count display
+                    $('#cart-count').text(response.cartCount);
+                    alert('Item added to cart!');
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
 </script>
+
 
     <script src="js/jquery-1.11.0.min.js"></script>
     <script

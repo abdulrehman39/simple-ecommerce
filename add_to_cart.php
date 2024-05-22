@@ -1,23 +1,17 @@
+
+
 <?php
 session_start();
 
 // Check if POST data is received
-if(isset($_POST['productId']) && isset($_POST['quantity']) && isset($_POST['color']) && isset($_POST['size'])) {
+if(isset($_POST['productId']) && isset($_POST['quantity']) && isset($_POST['color']) && isset($_POST['size']) && isset($_POST['name']) && isset($_POST['price']) && isset($_POST['image'])) {
     $productId = $_POST['productId'];
-    $quantity = $_POST['quantity'];
+    $quantity = intval($_POST['quantity']);
     $color = $_POST['color'];
     $size = $_POST['size'];
-    
-    // Fetch product details including image URL from a data source (e.g., database)
-    // Example: Assume $productDetails is fetched based on $productId
-    $productDetails = [
-        'id' => $productId,
-        'name' => 'Iphone 15 Pro Max', // Example product name
-        'price' => 1999.99, // Example product price
-        'color' => $color, // Product color
-        'size' => $size, // Product size
-        'image' => 'images/product-thumbnail-1.png' // Example product image URL
-    ];
+    $name = $_POST['name'];
+    $price = floatval($_POST['price']);
+    $image = $_POST['image'];
     
     // Add item to cart session
     if(isset($_SESSION['cart'][$productId])) {
@@ -26,12 +20,12 @@ if(isset($_POST['productId']) && isset($_POST['quantity']) && isset($_POST['colo
     } else {
         // If item doesn't exist in cart, add it with details
         $_SESSION['cart'][$productId] = [
-            'name' => $productDetails['name'],
-            'price' => $productDetails['price'],
+            'name' => $name,
+            'price' => $price,
             'quantity' => $quantity,
             'color' => $color,
             'size' => $size,
-            'image' => $productDetails['image'] // Store image URL in cart
+            'image' => $image
         ];
     }
     
