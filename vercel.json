@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.php",
+      "src": "api/*.php",
       "use": "@vercel/php"
     },
     {
-      "src": "api/*.php",
+      "src": "*.php",
       "use": "@vercel/php"
     },
     {
@@ -21,7 +21,19 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/cart",
+      "dest": "/cart.php"
+    },
+    {
+      "src": "/product",
+      "dest": "/product.php"
+    },
+    {
+      "src": "/cart_content",
+      "dest": "/cart_content.php"
     }
   ]
 }
