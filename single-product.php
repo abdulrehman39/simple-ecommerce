@@ -1111,7 +1111,7 @@
                 <input type="hidden" name="productId" value="1" />
                 <input type="hidden" name="name" value="Iphone 15 Pro Max">
         <input type="hidden" name="price" value="2000">
-        <input type="hidden" name="image" value="images/product-thumbnail-1.png">
+        <input type="hidden" name="image" value="public/images/product-thumbnail-1.png">
 
                 <!-- Color Selection -->
                 <div class="color-options product-select my-3">
@@ -2250,7 +2250,7 @@
             
             // Send AJAX request to add item to cart
             $.ajax({
-                url: 'add_to_cart.php',
+                url: '/api/add_to_cart.php',
                 type: 'POST',
                 data: {
                     productId: productId,
