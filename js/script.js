@@ -186,7 +186,7 @@
     setTimeout(function () {
       var loader = document.querySelector(".preloader-container");
       loader.classList.add("active_new");
-    }, 3000);
+    }, 2800);
 
     const spans = document.querySelectorAll(".preloader-text span");
     spans.forEach((span, index) => {
